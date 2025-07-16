@@ -2,7 +2,7 @@ import requests
 from typing import Dict, Optional
 import json
 from pathlib import Path
-from datetime import datetime
+from datetime import datetime, date, timedelta
 
 ROOT_DIR = Path(__file__).resolve().parent
 CONFIG_PATH = ROOT_DIR / 'application.json'
@@ -164,13 +164,29 @@ def main() -> None:
     
     print("\n=== Ввод параметров отчета ===")
     print("Введите период для анализа:")
-    date_from = get_valid_date("Дата начала периода")
-    date_to = get_valid_date("Дата окончания периода")
-    
+    date_from_str = get_valid_date("Дата начала периода")
+    date_to_str = get_valid_date("Дата окончания периода")
+
+    #строки в объекты date
+    date_from = datetime.strptime(date_from_str, "%Y-%m-%d").date()
+    date_to = datetime.strptime(date_to_str, "%Y-%m-%d").date()
+
+    #один день к date_to
+    date_to_plus_one = date_to + timedelta(days=1)
+
+    #завтрашняя дату
+    date_too = date.today() + timedelta(days=1)
+
+    #даты в строки для API
+    date_from_str = date_from.strftime("%Y-%m-%d")
+    date_to_plus_one_str = date_to_plus_one.strftime("%Y-%m-%d")
+    date_too_str = date_too.strftime("%Y-%m-%d")
+
+
     date_params = {
-        "created_after": f"{date_from}T00:00:00Z",
-        "created_before": f"{date_to}T00:00:00Z",
-        "closed_before": f"{date_to}T23:59:59Z"
+        "created_after": f"{date_from_str}T00:00:00Z",
+        "created_before": f"{date_to_plus_one_str}T00:00:00Z",
+        "closed_before": f"{date_too_str}T23:59:59Z"
     }
     
     report = generate_report(headers, date_params)
