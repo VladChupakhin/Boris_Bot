@@ -1,0 +1,4 @@
+.git
+*
+!Boris.py
+!Dockerfile

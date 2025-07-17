@@ -1,1 +1,31 @@
-application.json
+# Конфиги с секретами
+config/
+application.json  # если файл лежит не в папке config
+.env
+*.env
+
+# Docker-артефакты
+Dockerfile-dev
+docker-compose*.yml
+
+# Системные файлы Python
+__pycache__/
+*.py[cod]
+.python-version
+venv/
+env/
+
+# Логи и временные файлы
+*.log
+*.tmp
+*.swp
+*.swo
+
+# IDE-специфичные файлы
+.vscode/
+.idea/
+*.iml
+
+# Git-специфичные файлы
+.DS_Store
+*.orig
